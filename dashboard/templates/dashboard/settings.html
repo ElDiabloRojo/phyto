@@ -1,0 +1,51 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+<ul class="list-group">
+    {% for plant in plants %}
+    <li class="card mb-2">
+        <div class="card-header">
+            <a class="text-capitalize">{{ plant.title }} {% if todo.is_completed %}(completed){% endif %}</a >
+        </div>
+        <div class="card-body col-sm row">
+            <div class="input-group date mb-2 d-flex justify-content-center">
+                <div class="px-2 pb-2 d-flex flex-row">
+                    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                        <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                            <div class="input-group-text"><i class="fas fa-sun pr-1"></i>Sunrise</div>
+                        </div>
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
+                    </div>
+                </div>
+                <div class="px-2 pb-2 d-flex flex-row">
+                    <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                        <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                            <div class="input-group-text"><a><i class="fas fa-moon pr-1"></i>Sunset</a></div>
+                        </div>
+                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker8"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    <script type="text/javascript">
+        $(function () {
+            $('#datetimepicker1').datetimepicker({
+                format: 'HH:mm',
+                useCurrent: false
+            });
+            $('#datetimepicker2').datetimepicker({
+                format: 'HH:mm',
+                useCurrent: false
+            });
+            $("#datetimepicker1").on("change.datetimepicker", function (e) {
+                $('#datetimepicker2').datetimepicker('minDate', e.date);
+            });
+            $("#datetimepicker2").on("change.datetimepicker", function (e) {
+                $('#datetimepicker1').datetimepicker('maxDate', e.date);
+            });
+        });
+    </script>
+    {% endfor %}
+</ul>
+{% endblock %}
