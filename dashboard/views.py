@@ -11,18 +11,18 @@ def plant_page(request):
 def create_plant(request):
     # print(request.POST)
     Plant.objects.create(title=request.POST['title'])
-    return redirect('plants')
+    return redirect('settings')
 
 def complete_plant(request, pk):
     plants = get_object_or_404(Plant, pk=pk)
     plants.is_completed = True
     plants.save()
-    return redirect('plants')
+    return redirect('settings')
 
 def delete_plant(request, pk):
     plants = get_object_or_404(Plant, pk=pk)
     plants.delete()
-    return redirect('plants')
+    return redirect('settings')
 
 def settings_page(request):
     plants = Plant.objects.all()

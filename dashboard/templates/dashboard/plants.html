@@ -1,33 +1,21 @@
 {% extends "dashboard/base.html" %}
 
 {% block content %}
-<form action="{% url 'create-plant' %}" method="POST">
-    {% csrf_token %}
-    <div class="input-group">
-        <div class="input-group mb-3">
-            <input name="title" type="text" class="form-control" placeholder="Insert plant...">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">Create Plant</button>
-            </div>
-        </div>
-    </div>
-</form>
-
 <ul class="list-group">
     {% for plant in plants %}
-    <li class="card mb-2">
-        <div class="card-header">
-            <a class="text-capitalize">{{ plant.title }} {% if todo.is_completed %}(completed){% endif %}</a >
-        </div>
-        <div class="card-body col-sm">
-            <img class="img-fluid mb-2 d-block mx-auto" src="https://image.shutterstock.com/image-vector/no-image-available-icon-template-260nw-1036735678.jpg" alt="">
-            <div class="progress mb-2">
-                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+    <div class="py-2">
+        <li class="card">
+            <div class="card-header">
+                <a class="text-capitalize">{{ plant.title }} {% if todo.is_completed %}(completed){% endif %}</a >
             </div>
-            <a href="{% url 'delete-plant' plant.pk %}" class="btn btn-sm btn-danger">Delete</a>
-            <a href="{% url 'complete-plant' plant.pk %}" class="btn btn-sm btn-info">Complete</a>
-        </div>
-    </li>
+            <div class="card-body col-sm">
+                <img class="img-fluid mb-2 d-block mx-auto" src="https://image.shutterstock.com/image-vector/no-image-available-icon-template-260nw-1036735678.jpg" alt="">
+                <div class="progress mb-2">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+            </div>
+        </li>
+    </div>
     {% endfor %}
 </ul>
 {% endblock %}

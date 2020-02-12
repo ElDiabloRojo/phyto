@@ -1,48 +1,66 @@
 {% extends "dashboard/base.html" %}
 
 {% block content %}
-<ul class="list-group">
-    {% for plant in plants %}
-    <li class="card mb-2">
-        <div class="card-header">
-            <a class="text-capitalize">{{ plant.title }} {% if todo.is_completed %}(completed){% endif %}</a >
-        </div>
-        <div class="card-body col-sm row">
-            <div class="input-group date mb-2 d-flex justify-content-center">
-                <div class="px-2 pb-2 d-flex flex-row">
-                    <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                        <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fas fa-sun pr-1"></i>Sunrise</div>
-                        </div>
-                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1"/>
-                    </div>
-                </div>
-                <div class="px-2 pb-2 d-flex flex-row">
-                    <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                        <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
-                            <div class="input-group-text"><a><i class="fas fa-moon pr-1"></i>Sunset</a></div>
-                        </div>
-                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker8"/>
-                    </div>
-                </div>
+<form action="{% url 'create-plant' %}" method="POST">
+    {% csrf_token %}
+    <div class="input-group">
+        <div class="input-group mb-3">
+            <input name="title" type="text" class="form-control" placeholder="Insert plant...">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Create Plant</button>
             </div>
         </div>
-    </li>
+    </div>
+</form>
+
+<ul class="list-group">
+    {% for plant in plants %}
+    <div class="p-3">
+        <li class="card">
+            <div class="card-header">
+                <a class="text-capitalize">{{ plant.title }} {% if todo.is_completed %}(completed){% endif %}</a >
+            </div>
+            <div class="card-body col-sm row">
+                <div class="input-group date mb-2 d-flex justify-content-center">
+                    <div class="px-2 pb-2 d-flex flex-row">
+                        <div class="input-group date" id="{{ plant.title }}-datetimepicker1" data-target-input="nearest">
+                            <div class="input-group-append" data-target="#{{ plant.title }}-datetimepicker1" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fas fa-sun pr-1"></i>Sunrise</div>
+                            </div>
+                            <input type="text" class="form-control datetimepicker-input" data-target="#{{ plant.title }}-datetimepicker1"/>
+                        </div>
+                    </div>
+                    <div class="px-2 pb-2 d-flex flex-row">
+                        <div class="input-group date" id="{{ plant.title }}-datetimepicker2" data-target-input="nearest">
+                            <div class="input-group-append" data-target="#{{ plant.title }}-datetimepicker2" data-toggle="datetimepicker">
+                                <div class="input-group-text"><a><i class="fas fa-moon pr-1"></i>Sunset</a></div>
+                            </div>
+                            <input type="text" class="form-control datetimepicker-input" data-target="#{{ plant.title }}-datetimepicker2"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group px-2 mb-2 d-flex justify-content-end">
+                    <a href="{% url 'delete-plant' plant.pk %}" class="btn btn-sm btn-danger mr-2">Delete</a>
+                    <a href="{% url 'complete-plant' plant.pk %}" class="btn btn-sm btn-info">Complete</a>
+                </div>
+            </div>
+        </li>
+    </div>
     <script type="text/javascript">
         $(function () {
-            $('#datetimepicker1').datetimepicker({
+            $('#{{ plant.title }}-datetimepicker1').datetimepicker({
                 format: 'HH:mm',
                 useCurrent: false
             });
-            $('#datetimepicker2').datetimepicker({
+            $('#{{ plant.title }}-datetimepicker2').datetimepicker({
                 format: 'HH:mm',
                 useCurrent: false
             });
-            $("#datetimepicker1").on("change.datetimepicker", function (e) {
-                $('#datetimepicker2').datetimepicker('minDate', e.date);
+            $("#{{ plant.title }}-datetimepicker1").on("change.datetimepicker", function (e) {
+                $('#{{ plant.title }}-datetimepicker2').datetimepicker('minDate', e.date);
             });
-            $("#datetimepicker2").on("change.datetimepicker", function (e) {
-                $('#datetimepicker1').datetimepicker('maxDate', e.date);
+            $("#{{ plant.title }}-datetimepicker2").on("change.datetimepicker", function (e) {
+                $('#{{ plant.title }}-datetimepicker1').datetimepicker('maxDate', e.date);
             });
         });
     </script>
