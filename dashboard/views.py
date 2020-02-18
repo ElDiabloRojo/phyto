@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import TemplateView
 from .models import Plant
+from .forms import SettingsForm
 
 # Create your views here.
 def plant_page(request):
@@ -35,3 +37,40 @@ def gallery_page(request):
     return render(request, 'dashboard/gallery.html', {
         'plants': plants
     })
+
+class SettingsView(TemplateView):
+    template_name = 'dashboard/settings.html'
+
+    def get(self, request):
+        plants = Plant.objects.all()
+        form = SettingsForm
+
+        return render(request, self.template_name, {
+            'form': form,
+            'plants': plants
+        })
+
+    def post(self, request):
+        plants = Plant.objects.all()
+        form = SettingsForm(request.POST)
+
+        sunrise = []
+        sunset = []
+        feed = []
+
+        if form.is_valid():
+            form.save()
+            sunrise = form.cleaned_data['sunrise']
+            sunset = form.cleaned_data['sunset']
+            feed = form.cleaned_data['feed']
+            return redirect('dashboard:settings')
+
+        args = {
+            'form': form,
+            'plants': plants,
+            'sunrise': sunrise,
+            'sunset': sunset,
+            'feed': feed
+        }
+
+        return render(request, self.template_name, args)

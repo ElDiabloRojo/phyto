@@ -5,7 +5,7 @@
     {% csrf_token %}
     <div class="input-group">
         <div class="input-group mb-3">
-            <input name="title" type="text" class="form-control" placeholder="Insert plant...">
+            <input name="title" type="text" class="form-control" placeholder="Plant name here...">
             <div class="input-group-append">
                 <button class="btn btn-primary" type="submit">Create Plant</button>
             </div>
@@ -15,55 +15,57 @@
 
 <ul class="list-group">
     {% for plant in plants %}
-    <div class="p-3">
-        <li class="card">
-            <div class="card-header">
-                <a class="text-capitalize">{{ plant.title }} {% if todo.is_completed %}(completed){% endif %}</a >
-            </div>
-            <div class="card-body col-sm row">
-                <div class="input-group date mb-2 d-flex justify-content-center">
-                    <div class="px-2 pb-2 d-flex flex-row">
-                        <div class="input-group date" id="{{ plant.title }}-datetimepicker1" data-target-input="nearest">
-                            <div class="input-group-append" data-target="#{{ plant.title }}-datetimepicker1" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fas fa-sun pr-1"></i>Sunrise</div>
-                            </div>
-                            <input type="text" class="form-control datetimepicker-input" data-target="#{{ plant.title }}-datetimepicker1"/>
-                        </div>
-                    </div>
-                    <div class="px-2 pb-2 d-flex flex-row">
-                        <div class="input-group date" id="{{ plant.title }}-datetimepicker2" data-target-input="nearest">
-                            <div class="input-group-append" data-target="#{{ plant.title }}-datetimepicker2" data-toggle="datetimepicker">
-                                <div class="input-group-text"><a><i class="fas fa-moon pr-1"></i>Sunset</a></div>
-                            </div>
-                            <input type="text" class="form-control datetimepicker-input" data-target="#{{ plant.title }}-datetimepicker2"/>
-                        </div>
-                    </div>
+        <div class="py-2">
+            <li class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <a class="text-capitalize mr-auto p-2">{{ plant.title }} {% if plant.is_completed %}<i class="fas fa-certificate text-secondary"></i>{% endif %}</a>
+                    <a class="font-weight-light p-2 text-secondary"><i class="fas fa-fingerprint pr-2"></i>{{ plant.id }}</a>
+                    <a class="font-weight-light p-2 text-secondary"><i class="fas fa-flag-checkered pr-2"></i>{{ plant.created | date:"F d Y" }}</a>
                 </div>
-                <div class="input-group px-2 mb-2 d-flex justify-content-end">
-                    <a href="{% url 'delete-plant' plant.pk %}" class="btn btn-sm btn-danger mr-2">Delete</a>
-                    <a href="{% url 'complete-plant' plant.pk %}" class="btn btn-sm btn-info">Complete</a>
+                <div class="card-body col-sm d-flex justify-content-center">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <!-- Business Hours -->
+                        <div class="input-group date mb-2">
+                            <div class="px-2">
+                                <div class="input-group-prepend date startTime" id="{{ plant.title }}-datetimepicker1" data-target-input="nearest">
+                                    <div class="input-group-append" data-target="#{{ plant.title }}-datetimepicker1" data-toggle="datetimepicker">
+                                        <a class="input-group-text btn btn-outline-secondary"><i class="fas fa-sun pr-1"></i>Sunrise</a>
+                                    </div>
+                                    {{ form.sunrise }}
+                                </div>
+                            </div>
+                            <div class="px-2">
+                                <div class="input-group-prepend date startTime" id="{{ plant.title }}-datetimepicker2" data-target-input="nearest">
+                                    <div class="input-group-append" data-target="#{{ plant.title }}-datetimepicker2" data-toggle="datetimepicker">
+                                        <a class="input-group-text btn btn-outline-secondary"><i class="fas fa-moon pr-1"></i>Sunset</a>
+                                    </div>
+                                    {{ form.sunset }}
+                                </div>
+                            </div>
+                            <div class="px-2">
+                                <div class="input-group-prepend date startTime" id="{{ plant.title }}-datetimepicker3" data-target-input="nearest">
+                                    <div class="input-group-append" data-target="#{{ plant.title }}-datetimepicker3" data-toggle="datetimepicker">
+                                        <a class="input-group-text btn btn-outline-secondary"><i class="fas fa-tint pr-1"></i>Feed</a>
+                                    </div>
+                                    {{ form.feed }}
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                        <!-- Plant Management -->
+                        <div class="input-group px-2 d-flex justify-content-end">
+                            <button class="btn btn-sm btn-info mr-2" type="submit">Submit</button>
+                            <a href="{% url 'complete-plant' plant.pk %}" class="btn btn-sm btn-info mr-2">Complete</a>
+                            <a href="{% url 'delete-plant' plant.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                        </div>
+                    </form>
                 </div>
-            </div>
-        </li>
-    </div>
-    <script type="text/javascript">
-        $(function () {
-            $('#{{ plant.title }}-datetimepicker1').datetimepicker({
-                format: 'HH:mm',
-                useCurrent: false
-            });
-            $('#{{ plant.title }}-datetimepicker2').datetimepicker({
-                format: 'HH:mm',
-                useCurrent: false
-            });
-            $("#{{ plant.title }}-datetimepicker1").on("change.datetimepicker", function (e) {
-                $('#{{ plant.title }}-datetimepicker2').datetimepicker('minDate', e.date);
-            });
-            $("#{{ plant.title }}-datetimepicker2").on("change.datetimepicker", function (e) {
-                $('#{{ plant.title }}-datetimepicker1').datetimepicker('maxDate', e.date);
-            });
-        });
-    </script>
+            </li>
+        </div>
     {% endfor %}
 </ul>
+{% load static %}
+<script type="text/javascript" src="{% static 'dashboard/timepicker.js' %}"></script>
 {% endblock %}
+

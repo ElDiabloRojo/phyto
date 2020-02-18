@@ -4,11 +4,13 @@
 {% for plant in plants %}
 <div class="py-2">
     <li class="card">
-        <div class="card-header">
-            <a class="text-capitalize">{{ plant.title }} {% if todo.is_completed %}(completed){% endif %}</a >
+        <div class="card-header d-flex justify-content-between">
+            <a class="text-capitalize mr-auto p-2">{{ plant.title }} {% if plant.is_completed %}<i class="fas fa-certificate text-secondary"></i>{% endif %}</a>
+            <a class="font-weight-light p-2 text-secondary"><i class="fas fa-fingerprint pr-2"></i>{{ plant.id }}</a>
+            <a class="font-weight-light p-2 text-secondary"><i class="fas fa-flag-checkered pr-2"></i>{{ plant.created | date:"F d Y" }}</a>
         </div>
         <div id="{{ plant.title }}-carousel-controls" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
+            <div class="carousel-inner py-2">
                 <div class="carousel-item active">
                     <img class="d-block mx-auto" src="https://image.shutterstock.com/image-vector/no-image-available-icon-template-260nw-1036735678.jpg" alt="First slide">
                 </div>
