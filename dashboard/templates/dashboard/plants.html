@@ -1,6 +1,18 @@
 {% extends "dashboard/base.html" %}
 
 {% block content %}
+<form action="{% url 'create-plant' %}" method="POST">
+    {% csrf_token %}
+    <div class="input-group">
+        <div class="input-group mb-3">
+            <input name="title" type="text" class="form-control" placeholder="Plant name here...">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Create Plant</button>
+            </div>
+        </div>
+    </div>
+</form>
+
 <ul class="list-group">
     {% for plant in plants %}
     <div class="py-2">
@@ -9,9 +21,13 @@
                 <a class="text-capitalize mr-auto p-2">{{ plant.title }} {% if plant.is_completed %}<i class="fas fa-certificate text-secondary"></i>{% endif %}</a>
                 <a class="font-weight-light p-2 text-secondary"><i class="fas fa-fingerprint pr-2"></i>{{ plant.id }}</a>
                 <a class="font-weight-light p-2 text-secondary"><i class="fas fa-flag-checkered pr-2"></i>{{ plant.created | date:"F d Y" }}</a>
+                <a href="gallery/{{plant.id}}" class="font-weight-light p-2 text-secondary"><i class="far fa-image"></i></a>
+                <a href="settings/{{plant.id}}" class="font-weight-light p-2 text-secondary"><i class="fas fa-cogs"></i></a>
             </div>
             <div class="card-body col-sm">
-                <img class="img-fluid mb-2 d-block mx-auto" src="https://image.shutterstock.com/image-vector/no-image-available-icon-template-260nw-1036735678.jpg" alt="">
+                <div class="d-flex justify-content-center">
+                    <img class="img-fluid mb-2 flex-row mx-auto" src="https://image.shutterstock.com/image-vector/no-image-available-icon-template-260nw-1036735678.jpg" alt="">
+                </div>
                 <div class="progress mb-2">
                     <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
                 </div>

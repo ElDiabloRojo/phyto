@@ -8,6 +8,7 @@
             <a class="text-capitalize mr-auto p-2">{{ plant.title }} {% if plant.is_completed %}<i class="fas fa-certificate text-secondary"></i>{% endif %}</a>
             <a class="font-weight-light p-2 text-secondary"><i class="fas fa-fingerprint pr-2"></i>{{ plant.id }}</a>
             <a class="font-weight-light p-2 text-secondary"><i class="fas fa-flag-checkered pr-2"></i>{{ plant.created | date:"F d Y" }}</a>
+            <a href="settings/{{plant.id}}" class="font-weight-light p-2 text-secondary"><i class="fas fa-cogs"></i></a>
         </div>
         <div id="{{ plant.title }}-carousel-controls" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner py-2">

@@ -21,6 +21,7 @@
                     <a class="text-capitalize mr-auto p-2">{{ plant.title }} {% if plant.is_completed %}<i class="fas fa-certificate text-secondary"></i>{% endif %}</a>
                     <a class="font-weight-light p-2 text-secondary"><i class="fas fa-fingerprint pr-2"></i>{{ plant.id }}</a>
                     <a class="font-weight-light p-2 text-secondary"><i class="fas fa-flag-checkered pr-2"></i>{{ plant.created | date:"F d Y" }}</a>
+                    <a href="gallery/{{plant.id}}" class="font-weight-light p-2 text-secondary"><i class="far fa-image"></i></a>
                 </div>
                 <div class="card-body col-sm d-flex justify-content-center">
                     <form method="POST">
@@ -32,7 +33,7 @@
                                     <div class="input-group-append" data-target="#{{ plant.title }}-datetimepicker1" data-toggle="datetimepicker">
                                         <a class="input-group-text btn btn-outline-secondary"><i class="fas fa-sun pr-1"></i>Sunrise</a>
                                     </div>
-                                    {{ form.sunrise }}
+                                    <input type="text" name="sunrise" class="form-control datetimepicker-input" required id="id_sunrise" placeholder="{{plant.sunrise}}">
                                 </div>
                             </div>
                             <div class="px-2">
@@ -40,7 +41,7 @@
                                     <div class="input-group-append" data-target="#{{ plant.title }}-datetimepicker2" data-toggle="datetimepicker">
                                         <a class="input-group-text btn btn-outline-secondary"><i class="fas fa-moon pr-1"></i>Sunset</a>
                                     </div>
-                                    {{ form.sunset }}
+                                    <input type="text" name="sunset" class="form-control datetimepicker-input" required id="id_sunset" placeholder="{{plant.sunset}}">
                                 </div>
                             </div>
                             <div class="px-2">
@@ -48,7 +49,7 @@
                                     <div class="input-group-append" data-target="#{{ plant.title }}-datetimepicker3" data-toggle="datetimepicker">
                                         <a class="input-group-text btn btn-outline-secondary"><i class="fas fa-tint pr-1"></i>Feed</a>
                                     </div>
-                                    {{ form.feed }}
+                                    <input type="text" name="feed" class="form-control datetimepicker-input" required id="id_feed" placeholder="{{plant.feed}}">
                                 </div>
                             </div>
                             <br>
@@ -56,6 +57,7 @@
                         <!-- Plant Management -->
                         <div class="input-group px-2 d-flex justify-content-end">
                             <button class="btn btn-sm btn-info mr-2" type="submit">Submit</button>
+                            <input type="hidden" name="plant" value="{{ plant.id }}" required id="id_plant">
                             <a href="{% url 'complete-plant' plant.pk %}" class="btn btn-sm btn-info mr-2">Complete</a>
                             <a href="{% url 'delete-plant' plant.pk %}" class="btn btn-sm btn-danger">Delete</a>
                         </div>

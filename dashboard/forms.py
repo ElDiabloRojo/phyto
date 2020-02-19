@@ -1,5 +1,5 @@
 from django import forms
-from .models import Setting
+from .models import Plant
 
 
 class SettingsForm(forms.ModelForm):
@@ -20,5 +20,5 @@ class SettingsForm(forms.ModelForm):
     ))
 
     class Meta:
-        model = Setting
+        model = Plant
         fields = ('sunrise', 'sunset', 'feed',)

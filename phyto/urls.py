@@ -16,13 +16,22 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from dashboard.views import SettingsView, plant_page, gallery_page, create_plant, complete_plant, delete_plant
+from django.conf import settings
+from django.conf.urls import include, url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', plant_page, name='plants'),
     path('settings', SettingsView.as_view(), name='settings'),
     path('gallery', gallery_page, name='gallery'),
-    path('create-plant]/', create_plant, name='create-plant'),
+    path('create-plant/', create_plant, name='create-plant'),
     path('complete-plant/<int:pk>/', complete_plant, name='complete-plant'),
     path('delete-plant/<int:pk>/', delete_plant, name='delete-plant')
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+
+    urlpatterns += [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ]

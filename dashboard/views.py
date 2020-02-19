@@ -43,7 +43,7 @@ class SettingsView(TemplateView):
 
     def get(self, request):
         plants = Plant.objects.all()
-        form = SettingsForm
+        form = SettingsForm()
 
         return render(request, self.template_name, {
             'form': form,
@@ -63,7 +63,7 @@ class SettingsView(TemplateView):
             sunrise = form.cleaned_data['sunrise']
             sunset = form.cleaned_data['sunset']
             feed = form.cleaned_data['feed']
-            return redirect('dashboard:settings')
+            return redirect('settings')
 
         args = {
             'form': form,
