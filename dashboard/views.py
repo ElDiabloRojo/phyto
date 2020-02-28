@@ -51,15 +51,13 @@ class SettingsView(TemplateView):
         })
 
     def post(self, request):
-        plants = Plant.objects.all()
         form = SettingsForm(request.POST)
-
-        sunrise = []
-        sunset = []
-        feed = []
+        plant_id = form.plant
+        plant = Plant.objects.get(pk=plant_id)
 
         if form.is_valid():
             form.save()
+
             sunrise = form.cleaned_data['sunrise']
             sunset = form.cleaned_data['sunset']
             feed = form.cleaned_data['feed']
@@ -67,10 +65,7 @@ class SettingsView(TemplateView):
 
         args = {
             'form': form,
-            'plants': plants,
-            'sunrise': sunrise,
-            'sunset': sunset,
-            'feed': feed
+            'plant': plant
         }
 
         return render(request, self.template_name, args)

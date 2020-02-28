@@ -18,7 +18,8 @@ class SettingsForm(forms.ModelForm):
             'class': 'form-control datetimepicker-input'
         }
     ))
+    plant = forms.IntegerField()
 
     class Meta:
         model = Plant
-        fields = ('sunrise', 'sunset', 'feed',)
+        fields = ('sunrise', 'sunset', 'feed', 'plant',)
